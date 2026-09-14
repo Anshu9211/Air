@@ -1,17 +1,12 @@
 <template>
-  <div class="app-shell">
-    <Navbar v-if="!isLoginPage" />
-    <main :class="{ 'page-with-nav': !isLoginPage }">
-      <router-view />
-    </main>
+  <div id="app-shell">
+    <router-view />
   </div>
 </template>
 
-<script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import Navbar from './components/Navbar.vue'
-
-const route = useRoute()
-const isLoginPage = computed(() => route.path === '/login')
-</script>
+<style>
+#app-shell {
+  min-height: 100vh;
+  background-color: var(--air-bg);
+}
+</style>

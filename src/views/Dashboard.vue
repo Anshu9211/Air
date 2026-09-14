@@ -1,12 +1,87 @@
 <template>
-  <div class="container">
-    <section class="hero"><div><p class="eyebrow">WELCOME TO SKYFLY</p><h1>Travel made simple.</h1><p>Find flights, book your seat and manage every trip from one clean dashboard.</p><router-link to="/flights" class="btn">Explore Flights</router-link></div><div class="hero-icon">✈</div></section>
-    <div class="stats"><div class="card"><span>Upcoming Flights</span><b>3</b></div><div class="card"><span>Bookings</span><b>8</b></div><div class="card"><span>Rewards</span><b>2,450</b></div></div>
-    <h2 class="section-title">Popular flights</h2>
-    <div class="grid-2"><FlightCard v-for="flight in flights.slice(0,2)" :key="flight.id" :flight="flight" /></div>
+  <div>
+    <Navbar />
+
+    <div class="air-page">
+      <div class="container">
+        <div class="air-surface p-4 p-md-5 mb-4 hero">
+          <h1 class="h3 fw-bold mb-1">Welcome back, {{ firstName }} 👋</h1>
+          <p class="air-muted mb-4">Where are you flying to next?</p>
+          <router-link class="btn air-btn-primary" :to="{ name: 'flights' }">
+            <i class="bi bi-search me-1"></i> Search Flights
+          </router-link>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="air-surface p-3 text-center">
+              <div class="fs-4 fw-bold text-primary">{{ upcomingCount }}</div>
+              <div class="air-muted small">Upcoming Trips</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="air-surface p-3 text-center">
+              <div class="fs-4 fw-bold text-primary">{{ bookingStore.bookings.length }}</div>
+              <div class="air-muted small">Total Bookings</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="air-surface p-3 text-center">
+              <div class="fs-4 fw-bold text-primary">{{ flights.length }}</div>
+              <div class="air-muted small">Flights Available</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="air-surface p-3 text-center">
+              <div class="fs-4 fw-bold text-primary">6</div>
+              <div class="air-muted small">Destinations</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <router-link :to="{ name: 'flights' }" class="air-surface air-surface--hover d-block p-4 h-100">
+              <i class="bi bi-search fs-3 text-primary mb-2 d-block"></i>
+              <h6 class="fw-semibold">Search Flights</h6>
+              <p class="air-muted small mb-0">Find and compare flights across routes.</p>
+            </router-link>
+          </div>
+          <div class="col-md-4">
+            <router-link :to="{ name: 'my-bookings' }" class="air-surface air-surface--hover d-block p-4 h-100">
+              <i class="bi bi-ticket-perforated fs-3 text-primary mb-2 d-block"></i>
+              <h6 class="fw-semibold">My Bookings</h6>
+              <p class="air-muted small mb-0">View and manage your reservations.</p>
+            </router-link>
+          </div>
+          <div class="col-md-4">
+            <router-link :to="{ name: 'profile' }" class="air-surface air-surface--hover d-block p-4 h-100">
+              <i class="bi bi-person fs-3 text-primary mb-2 d-block"></i>
+              <h6 class="fw-semibold">Profile</h6>
+              <p class="air-muted small mb-0">Update your personal details.</p>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script setup>
-import FlightCard from '../components/FlightCard.vue'
-import { flights } from '../data/flights'
+import { computed } from "vue";
+import Navbar from "@/components/Navbar.vue";
+import { useUserStore } from "@/data/user.js";
+import { useBookingStore, flights } from "@/data/flights.js";
+
+const userStore = useUserStore();
+const bookingStore = useBookingStore();
+
+const firstName = computed(() => userStore.currentUser?.name?.split(" ")[0] || "Traveler");
+const upcomingCount = computed(() => bookingStore.bookings.length);
 </script>
+
+<style scoped>
+.hero {
+  background: linear-gradient(135deg, var(--air-primary-light), #ffffff);
+}
+</style>
