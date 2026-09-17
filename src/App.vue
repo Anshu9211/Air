@@ -10,3 +10,8 @@
   background-color: var(--air-bg);
 }
 </style>
+<script setup>
+
+
+
+</script>

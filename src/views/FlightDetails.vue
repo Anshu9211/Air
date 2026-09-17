@@ -75,8 +75,8 @@
 
 <script setup>
 import { computed } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import { getFlightById } from "@/data/flights.js";
+import Navbar from "../components/Navbar.vue";
+import { getFlightById } from "../data/flights.js";
 
 const props = defineProps({
   id: {

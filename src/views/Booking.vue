@@ -43,10 +43,10 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import BookingForm from "@/components/BookingForm.vue";
-import { getFlightById, useBookingStore } from "@/data/flights.js";
-import { useUserStore } from "@/data/user.js";
+import Navbar from "../components/Navbar.vue";
+import BookingForm from "../components/BookingForm.vue";
+import { getFlightById, useBookingStore } from "../data/flights.js";
+import { useUserStore } from "../data/user.js";
 
 const props = defineProps({
   id: {

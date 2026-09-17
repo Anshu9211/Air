@@ -48,11 +48,10 @@
 
 <script setup>
 import { reactive, ref, onMounted } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import FlightCard from "@/components/FlightCard.vue";
-import SearchingFlight from "@/components/SearchingFlight.vue";
-import { flights, searchFlights } from "@/data/flights.js";
-
+import Navbar from "../components/Navbar.vue";
+import FlightCard from "../components/FlightCard.vue";
+import SearchingFlight from "../components/SearchingFlight.vue";
+import { flights, searchFlights } from "../data/flights.js";
 const filters = reactive({ from: "", to: "", date: "" });
 const results = ref([...flights]);
 const loading = ref(false);

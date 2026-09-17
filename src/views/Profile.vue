@@ -40,8 +40,8 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import { useUserStore } from "@/data/user.js";
+import Navbar from "../components/Navbar.vue";
+import { useUserStore } from "../data/user.js";
 
 const userStore = useUserStore();
 const saved = ref(false);
