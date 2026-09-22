@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="air-page">
+    <!-- <div class="air-page">
       <div class="container">
         <div class="air-surface p-4 p-md-5 mb-4 hero">
           <h1 class="h3 fw-bold mb-1">Welcome back, {{ firstName }} 👋</h1>
@@ -71,6 +71,71 @@
           </div>
         </div>
       </div>
+    </div> -->
+    <div class="container-fluid">
+      <div class="container">
+        <div class="row">
+           <div class="col-12 booking-main-cont">
+              <div class="book-btn-cont">
+                <button class="booking-btn" id="booking-page">
+                  <i class="bi bi-airplane"></i>
+                  <h5>Book a flight</h5>
+                </button>
+                <button class="status-btn" id="status-page">
+                  <i class="bi bi-airplane"></i>
+                  <h5>Flight Status</h5>
+                </button>
+              </div>
+              
+              <div class="book-data-btm">
+                <div class="travel-details">
+                  <label class="pe-2 me-4">
+                    <input type="radio" id="return">
+                    Return
+                  </label>
+                  <label>
+                    <input type="radio" id="one-way">
+                    One way
+                  </label>
+                </div>
+
+                <div class="booking-info">
+                  <div class="book-travel-data">
+                    <label>
+                      <input type="text" placeholder="From" id="departure">
+                    </label>
+                  </div>
+                  <div class="reverse-btn-cont">
+                    <button id="reverse-data">
+                      <i class="bi bi-arrow-left-right"></i>
+                    </button>
+                  </div>
+                  <div class="book-travel-data">
+                    <label>
+                      <input type="text" placeholder="To" id="arrival">
+                    </label>
+                  </div>
+                  <div class="book-travel-date">
+                    <label>
+                      <input type="date" id="departure-date">
+                    </label>
+                  </div>
+                  <div class="book-travel-date">
+                    <label>
+                      <input type="date" id="arrival-date">
+                    </label>
+                  </div>
+                 
+                </div>
+                <div>
+                  <button class="find-btn" id="find-btn"> 
+                    Search Flights
+                  </button>
+                </div>
+              </div>
+           </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,48 +153,176 @@ const firstName = computed(() => userStore.currentUser?.name?.split(" ")[0] || "
 const upcomingCount = computed(() => bookingStore.bookings.length);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-*
+
+body,html
 {
   padding: 0; 
   margin: 0;
   box-sizing: border-box;
-}
-.hero {
-  background: linear-gradient(135deg, var(--air-primary-light), #ffffff);
+  .hero 
+  {
+    background: linear-gradient(135deg, var(--air-primary-light), #ffffff);
+  }
+  
 }
 .banner-top
+  {
+    background: url(../assets/img/Banner-img.avif);
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    font-family: "Bebas Neue", sans-serif;
+    position: relative;
+    background-position: center;
+    .banner-top-cont h1
+    {
+      font-size: 60px;
+      color: rgba(255, 255, 255, 0.603);
+      span
+      {
+        color: rgb(221, 160, 221);
+      }
+    }
+  }
+.booking-main-cont
 {
-  background: url(../assets/img/Banner-img.avif);
-  width: 100%;
-  height: 500px;
-  background-size: cover;
-  font-family: "Bebas Neue", sans-serif;
-  position: relative;
-  background-position: center;
+  // border: 1px solid black;
+  // padding: 30px;
+  // background-color: white;
+   position: absolute;
+    bottom: 14%;
+    
+
+  
+  .book-data-btm
+  {
+    // border: 2px solid black;
+    padding: 30px;
+    // background-color: rgb(245, 156, 156);
+    background-color: white;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    border-top-right-radius: 13px;
+    width: 1160px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.096); 
+   
+    // align-items: center;
+    // justify-content: center;
+     
+    .travel-details
+    {
+      label
+      {
+        font-size: 18px;
+        font-weight: 500;
+        input 
+        {
+          scale: 1.4;
+        }
+      }
+    }
+    .booking-info
+    {
+      border: 1px solid black;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 20px;
+      padding: 5px;
+      border-radius: 8px;
+      // width: 100%;
+      // justify-content: center;
+      .book-travel-data
+      {
+        input
+        {
+          width: 320px;
+          padding: 7px 15px;
+          border: none;
+          outline: none;
+        }
+      }
+      
+      .reverse-btn-cont
+      {
+        button
+        {
+          padding: 3px 7px;
+          border-radius: 50%;
+          border: 1px solid rgba(0, 0, 0, 0.568);
+          // border: none;
+          outline: none;
+          background-color: transparent;
+          transition: 0.10s ease;
+        }
+        button:hover
+        {
+          background-color: rgba(221, 160, 221, 0.671);
+        }
+      }
+      
+      .book-travel-date
+      {
+        input
+        {
+          width: 200px;
+          padding: 7px 5px;
+          border: none;
+          outline: none;
+        }
+      }
+    }
+    .find-btn
+      {
+        padding: 10px 20px;
+        margin-top: 20px;
+        width: 20%;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        
+      }
+  }
+  .book-btn-cont
+  {
+    
+    .booking-btn
+    {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-top-left-radius: 13px;
+      gap: 10px;
+      border: none;
+      padding: 8px 40px;
+      border-right: 1px solid rgba(221, 160, 221, 0.589);
+      h5
+      {
+        font-weight: 450;
+      }
+    }
+  }
+    .status-btn
+    {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-top-right-radius: 13px;
+      gap: 10px;
+      border: none;
+      padding: 8px 40px;
+      h5
+      {
+        font-weight: 450;
+      }
+    }
 }
-.banner-top .banner-top-cont
-{
-  /* margin: auto; */
-  /* position:absolute;
-  top:38%;
-  left: 55%;
-  transform: translateX(-50%); */
-}
-.banner-top .banner-top-cont h1
-{
-  font-size: 60px;
-  color: rgba(255, 255, 255, 0.603);
-}
-.banner-top .banner-top-cont h1 span
-{
-  color: rgb(221, 160, 221);
-}
-.air-page
-{
-  margin: 0px 350px;
-  min-height: 480px;
-}
+
+
 
 </style>
