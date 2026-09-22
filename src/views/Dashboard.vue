@@ -1,18 +1,11 @@
 <template>
-  <div>
-    <Navbar />
-
-    <div class="air-page">
-      <div>
-        <h1>dashboard design </h1>
-      </div>
-    </div>
-  </div>
+  <Navbar/>
+  <div></div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import Navbar from "../components/Navbar.vue";
+ import { computed } from "vue";
+ import Navbar from "../components/Navbar.vue";
 // import { useUserStore } from "../data/user.js";
 // import { useBookingStore, flights } from "../data/flights.js";
 
@@ -24,8 +17,5 @@ import Navbar from "../components/Navbar.vue";
 </script>
 
 <style scoped>
-h1{
-  text-align: center;
-  margin: auto;
-}
+
 </style>
