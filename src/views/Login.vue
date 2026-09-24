@@ -25,22 +25,28 @@
                               <p>Enter your Email and Password</p>
                             </div> -->
                            <div class="form-group-box">
-                              <label>Email</label>
-                                 <input
-                                    type="text"
-                                    v-model="id"
-                                    placeholder="Enter your Email"/>
+                            <label>Email</label>
+                            <input
+                            type="text"
+                            v-model="id"
+                            placeholder="Enter your Email"
+                            :class="{ 'input-error': emailError }"/>
+                            <span v-if="emailError" class="error-text">
+                              {{ emailError }}
+                              </span>
                            </div>
-                  
                            <div class="form-group-box">
-                              <label>Password</label>
-
-                                 <input
-                                    type="password"
-                                    v-model="password"
-                                    placeholder="Enter your Password"/>
+                            <label>Password</label>
+                            <input
+                            type="password"
+                            v-model="password"
+                            placeholder="Enter your Password"
+                            :class="{ 'input-error': PasswordError }"/>
+                            <span v-if="passwordError" class="error-text">
+                            {{ passwordError }}
+                            </span>  
                            </div>
-                           <p v-if="error" class="error">
+                           <p v-if="error" class="error-message">
                                  {{ error }}
                               </p>
                               <button type="submit">
@@ -54,27 +60,20 @@
             </div>
          </div>
       </div>
-
-    
   </div>
-
- 
-
 </template>
 
-<script setup>
-import { ref } from "vue";
 
+
+<script setup>
+
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 let router = useRouter();
 let id = ref("");
 let password = ref("");
-let error = ref("");
-
-
-
-
-
+let emailError = ref("");
+let passwordError = ref("");
 
 let users = [
   {
@@ -88,17 +87,35 @@ let users = [
 ];
 
 let handleLogin = () => {
-  error.value = "";
+  console.log("login  hora h dosto"); 
+  console.log("Email:", id.value ,"value aagyi"); 
+  console.log("Password:", password.value,"password bhi aaja re");
+  emailError.value = "";
+  passwordError.value = "";
+
+  if (!id.value.trim()) {
+    emailError.value = "Email is required";
+  }
+  if (!password.value.trim()) {
+    passwordError.value = "Password is required";
+  }
+  if (emailError.value || passwordError.value) {
+    return;
+  }
+
   let validUser = users.find(
     (user) =>
       user.id === id.value &&
       user.password === password.value
   );
+
   if (validUser) {
     console.log("Login Successful");
     router.push("/dashboard");
   } else {
-    error.value = "Invalid ID or Password";
+    emailError.value = "Invalid Email or Password";
+    id.value = "";
+    password.value = "";
   }
 };
 </script>
@@ -141,24 +158,14 @@ let handleLogin = () => {
 
 .login-group .login-box
 {
-   padding: 20px 50px 50px 50px;
-   background-color: rgba(240, 248, 255, 0.293);
-   border-radius: 15px;
+  padding: 20px 50px 50px 50px;
+  background-color: rgba(240, 248, 255, 0.293);
+  border-radius: 15px;
   transition: 0.3s ease;
-   /* box-shadow: 0 0 50px #e6ebf0; */
-     border:1px solid #4e89d1;
-     backdrop-filter: blur(1px);
-
-  
-   
-
+  border:1px solid #4e89d1;
+  backdrop-filter: blur(1px);
 }
-/* .login-group .login-box:hover
-{
- 
 
-
-} */
 .login-logo{
   width: 150px;
   height: 100px;
@@ -198,11 +205,8 @@ let handleLogin = () => {
  }
  .form-group-box
  {
-   margin-bottom: 30px;
+   margin-bottom: 10px;
  }
-
-
-
 button {
   width: 100%;
   height: 48px;
@@ -216,6 +220,7 @@ button {
   transition: 0.4s ease;
   box-shadow: 4px 4px 0 #0285c761,
   inset 5px 5px 0 #0285c735;
+  margin-top: 20px;
 }
 
 button:hover {
@@ -223,12 +228,25 @@ button:hover {
   transform: translateY(-4px);
 }
 
-.error {
-  color: #dc2626 !important;
-  font-size: 14px;
-  margin: 10px 0 !important;
+
+
+.input-error {
+  border: 1px solid red !important;
+  outline: none;
 }
 
+
+
+.error-text {
+  color: rgba(255, 0, 0, 0.987);
+  font-size: 16px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center ;
+  justify-content: end;
+  padding-right: 15px !important;
+ 
+}
 
 
 
