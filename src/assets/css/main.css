@@ -1,5 +1,9 @@
 /* ===== Air — global light theme ===== */
 
+/* @font-face {
+  font-family: "meraFont";
+  src: url();
+} */
 :root {
   --air-primary: #2563eb;
   --air-primary-dark: #1d4ed8;

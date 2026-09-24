@@ -11,8 +11,6 @@
               <div class="navbar-text">
                 <ul class="nav-ul ">
                   <li class="nav-li"><a href="#">HOME</a>
-                  </li>
-                  <li class="nav-li"><a href="#">FLIGHTS</a>
                     <div class="home-dropdown">
                       <ul class="ul-nav">
                         <li class="li-nav"><a href="#">UDAAN AIRLINES O1</a></li>
@@ -23,10 +21,8 @@
                       </ul>
                     </div>
                   </li>
-                  <li class="nav-li"><a href="#">SERVICES</a>
-                    
-                  </li>
-
+                  <li class="nav-li"><a href="#">FLIGHTS</a></li>
+                  <li class="nav-li"><a href="#">SERVICES</a></li>
                   <li class="nav-li"><a href="#">TEAM</a></li>
                   <li class="nav-li"><a href="#">CONTACT</a></li>
                 </ul>
@@ -45,9 +41,25 @@
             </div>
           </div>
         </div>
+          
     </div>
   </div>
-  
+  <!-- <div class="container-fluid home-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="box-container">
+            <div class="contant">
+              <h2></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+
+        </div>
+      </div>
+    </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -61,7 +73,6 @@ const userStore = useUserStore();
 </script>
 
 <style scoped>
-
 .home-nav
 {
   /* background:liner(#89C8F7,red); */
@@ -108,7 +119,6 @@ const userStore = useUserStore();
     width: 0;
     height: 3px;
     transition: 0.4s ease;
-    flex-direction: column;
 }
 
 .nav-ul .nav-li a:hover::before
@@ -132,6 +142,7 @@ const userStore = useUserStore();
 .home-dropdown .ul-nav
 {
   padding: 20px 30px 20px 30px;
+  z-index: 3;
 
 }
 .home-dropdown .ul-nav .li-nav
@@ -149,11 +160,15 @@ const userStore = useUserStore();
     line-height: 50px;
     width: 250px;
     top: 35px;
-    left: -100px;
+    left: 50%;
+    transform: translateX(-50%);
     display: none;
     transition: 0.4s ease;
     border-radius: 15px;
-    background-color:#89c7f7 ;
+    /* padding-top: 25px; */
+    /* box-shadow: 5px 5px 0 white,
+    inset 5px 5px 0 white; */
+    background-color:#89C8F7 ;
     border: 1px solid #ffffff7c;
  }
  .nav-ul li:hover .ul-nav 
@@ -186,11 +201,12 @@ const userStore = useUserStore();
 {
   background-color: #8B827E;
 }
-@media screen and(min-width: 992px)
+/* .home-box
 {
-  .nav-contant  
-  {
-    display: none;
-  }
-}
+  background-image: url("../assets/img/background.png");
+  background-position: center;
+  background-size: cover;
+  height: 500%;
+} */
+
 </style>
