@@ -8,7 +8,7 @@
             <div class="col-lg-8">
                <div class="login-content">
                   <div class="content-img">
-                      <img src="../assets/img/Udaan Airlines.png" class="img-fluid">
+                      <img src="../assets/img/2.png" class="img-fluid">
                   </div>
                </div>
             </div>
