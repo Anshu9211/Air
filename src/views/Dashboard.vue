@@ -229,7 +229,7 @@ const firstName = computed(() => userStore.currentUser?.name?.split(" ")[0] || "
 const upcomingCount = computed(() => bookingStore.bookings.length);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Semi+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap');
 

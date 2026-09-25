@@ -1,77 +1,3 @@
-<!-- <template>
-  <div>
-    <Navbar />
-
-    <div class="air-page">
-      <div class="container" style="max-width: 820px;">
-        <router-link :to="{ name: 'flights' }" class="air-muted d-inline-flex align-items-center gap-1 mb-3">
-          <i class="bi bi-arrow-left"></i> Back to search
-        </router-link>
-
-        <div v-if="!flight" class="air-surface p-5 text-center">
-          <i class="bi bi-exclamation-circle fs-2 air-muted d-block mb-2"></i>
-          <p class="air-muted mb-3">We couldn't find that flight.</p>
-          <router-link class="btn air-btn-primary" :to="{ name: 'flights' }">Browse flights</router-link>
-        </div>
-
-        <div v-else class="air-surface p-4 p-md-5">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
-            <div>
-              <span class="air-badge-soft mb-2 d-inline-block">{{ flight.airline }}</span>
-              <h1 class="h4 fw-bold mb-0">{{ flight.from }} → {{ flight.to }}</h1>
-              <p class="air-muted mb-0">{{ formattedDate }}</p>
-            </div>
-            <div class="text-end">
-              <div class="fs-3 fw-bold text-primary">₹{{ flight.price.toLocaleString("en-IN") }}</div>
-              <div class="air-muted small">per adult</div>
-            </div>
-          </div>
-
-          <div class="row text-center g-3 mb-4">
-            <div class="col-4">
-              <div class="fw-bold fs-5">{{ flight.depart }}</div>
-              <div class="air-muted small">{{ flight.fromCode }} · {{ flight.from }}</div>
-            </div>
-            <div class="col-4">
-              <i class="bi bi-airplane-fill text-primary fs-4"></i>
-              <div class="air-muted small">{{ flight.duration }}</div>
-              <div class="air-muted small">{{ flight.stops === 0 ? "Non-stop" : `${flight.stops} stop` }}</div>
-            </div>
-            <div class="col-4">
-              <div class="fw-bold fs-5">{{ flight.arrive }}</div>
-              <div class="air-muted small">{{ flight.toCode }} · {{ flight.to }}</div>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row g-3 mb-4">
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Flight No.</div>
-              <div class="fw-semibold">{{ flight.id }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Aircraft</div>
-              <div class="fw-semibold">{{ flight.aircraft }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Stops</div>
-              <div class="fw-semibold">{{ flight.stops === 0 ? "Non-stop" : flight.stops }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Class</div>
-              <div class="fw-semibold">Economy</div>
-            </div>
-          </div>
-
-          <router-link class="btn air-btn-primary w-100" :to="{ name: 'booking', params: { id: flight.id } }">
-            Book Now
-          </router-link>
-        </div>
-      </div>
-    </div>
-  </div>
-</template> -->
 <template>
 <div class="container-fluid home-data py-5 mb-5">
     <div class="container mb-2">
@@ -104,14 +30,14 @@
               <div class="my-class">
                 <div class="uddan-logo">
                   <div class=" d-flex">
-                    <img src="../assets/img/logo-img" class="img-fluid">
+                    <img src="../assets/img/logo-img.jpeg" class="img-fluid">
                   </div>
                   <div class="box-flight-data">
                       <div class="flight-top-data">
                           <h3>Delhi (DEL)</h3>
                           <p> Sat, 27 Sep 2025</p>
                       </div>
-                      <div class="pt-1 icon-right">
+                      <div class="pt-1 icon-center">
                         <i class="bi bi-arrow-right"></i>
                       </div>
                       <div class="flight-top-data">
@@ -132,20 +58,30 @@
                   <h2>08:45</h2>
                   <h6>DEL</h6>
                   <p>indira Gandhi <br> international Airport</p>
-                  <p>Delhi</p>
+                  <p class="mb-0">Delhi</p>
+                  <div class="icon-lift">
+                      <i class="bi bi-dot"></i>
+                      <span>-------------------------</span>
+                    </div>
                 </div>
-                <div class="">
-                  
+                <div class="No-Top">
+                  <div class="icon-box">
+                    <i class="bi bi-airplane-fill"></i>
+                  </div>
                   <div class="Non-stop">
-                    <p class="m-0">2h 15m</p>
+                    <p class="mb-2 ">2h 15m</p>
                     <span>Non stop</span>
                   </div>
                 </div>
-                <div class="Mumbai-data ">
+                <div class="Mumbai-data">
                   <h2>11:00</h2>
                   <h6>BOM</h6>
                   <p>Chharrapati Shivaji <br> Maharaj international Airport</p>
-                  <p>Mumbai</p>
+                  <p class="mb-0">Mumbai</p>
+                  <div class="icon-right">
+                      <i class="bi bi-dot"></i>
+                      <span>----------------------</span>
+                    </div>
                 </div>
               </div>
               <div class="card-data">
@@ -170,16 +106,16 @@
                   </div>
                   <div class="box-code pt-3 ">
                     <div class="card-details ">
-                      <i class="bi bi-airplane"></i>
+                      <i class="bi bi-gender-neuter"></i>
                     </div>
                     <div class="flaght-no">
-                      <p class="m-0">Stops</p>
+                      <p class="m-0 ps-2">Stops</p>
                       <h6>Non-stop</h6>
                     </div>
                   </div>
                   <div class="box-code pt-3 ">
                     <div class="card-details ">
-                      <i class="bi bi-airplane"></i>
+                      <i class="bi bi-person-wheelchair"></i>
                     </div>
                     <div class="flaght-no">
                       <p class="m-0">Class</p>
@@ -232,7 +168,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="but-book">
-                  <button class="Book-Now ">Book Now <i class="bi bi-arrow-right"></i></button>
+                  <button class="Book-Now " id="but-book">Book Now <i class="bi bi-arrow-right"></i></button>
                 </div>
               </div>
             </div> 
@@ -266,8 +202,8 @@ const formattedDate = computed(() => {
   });
 });
 </script>
-<style scoped>
-.home-data
+<style lang="scss" scoped>
+.home-data  
 {
   background-image: url(../assets/img/background-2.png);
   background-position: center;
@@ -342,7 +278,12 @@ const formattedDate = computed(() => {
   display: flex;
   gap: 20px;
 }
-.my-class .box-flight-data .icon-right i
+.my-class .uddan-logo img
+{
+  width: 150px;
+  margin-bottom: 20px;
+}
+.my-class .box-flight-data .icon-center i
 {
   font-size: 22px;
   font-weight: 500;
@@ -362,7 +303,7 @@ const formattedDate = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px;
+  padding: 30px 30px 0 30px;
 }
 .box-card
 {
@@ -376,7 +317,7 @@ const formattedDate = computed(() => {
   align-items: center;
   justify-content: space-between;
   border-top: 2px solid #d6d9dc5e;
-  padding: 0 15px 0 15px;
+  padding: 0 50px 0 50px;
 
 }
 .box-code
@@ -401,10 +342,7 @@ const formattedDate = computed(() => {
   
 
 }
-.box-code .card-details i:nth-child(1)
-{
-  transform: rotate(45deg);
-}
+
 .card-data-2 .details 
 {
   display: flex;
@@ -445,5 +383,92 @@ const formattedDate = computed(() => {
   color: white;
   background-color: #205ED2;
   border: none;
+  font-weight: 600;
+  transition: 0.4s ease;
+}
+.but-book .Book-Now:hover
+{
+  transform: translateY(-4px);
+  box-shadow: 0 0 px #205ED2;
+}
+.time-data .Delhi-data
+{
+  padding: 30px;
+  position: relative;
+}
+.icon-lift i
+{
+  position: absolute;
+  top: 8px;
+  right: -60px;
+  font-size: 45px;
+  color: #205ED2;
+
+}
+.icon-lift span
+{
+  position: absolute;
+  top: 17px;
+  right: -345px;
+  font-size: 30px;
+  color: #205ed258;
+
+}
+
+.time-data .Mumbai-data
+{
+  padding: 20px;
+  position: relative;
+}
+.icon-right i
+{
+  position: absolute;
+  top: -1px;
+  left:-100px;
+  font-size: 45px;
+  color: #205ED2;
+
+}
+
+.icon-right span
+{
+  position: absolute;
+  top: 7px;
+  left:-350px;
+  font-size: 30px;
+  color: #205ed261;
+}
+.No-Top
+{
+  position: relative;
+  text-align: center;
+}
+.icon-box i
+{
+  position: absolute;
+  top: -62px;
+  right: 35px;
+  font-size: 30px;
+  transform: rotate(90deg);
+  color: #205ED2;
+  
+}
+.Non-stop p
+{
+  margin-bottom: 10px;
+}
+.Non-stop span
+{
+  background-color: rgb(115, 211, 115);
+  padding: 4px 15px;
+  border-radius: 25px;
+  color: white;
+}
+.box-code .flaght-no h6
+{
+  background-color: rgb(115, 211, 115);
+  padding: 5px 15px;
+  border-radius: 25px;
+  color: white;
 }
 </style>
