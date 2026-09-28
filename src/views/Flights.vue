@@ -6,7 +6,7 @@
       <div class="container">
         <h1 class="h4 fw-bold mb-3">Search Flights</h1>
 
-        <form class="air-surface p-3 p-md-4 mb-4" @submit.prevent="runSearch">
+        <form class="air-surface p-3 p-md-4 mb-4" @submit.prevent="runSearch({ immediate: true })">
           <div class="row g-3 align-items-end">
             <div class="col-12 col-md-3">
               <label class="form-label">From</label>
@@ -47,32 +47,55 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { useRoute } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import FlightCard from "../components/FlightCard.vue";
 import SearchingFlight from "../components/SearchingFlight.vue";
 import { flights, searchFlights } from "../data/flights.js";
+
+const route = useRoute();
 const filters = reactive({ from: "", to: "", date: "" });
 const results = ref([...flights]);
 const loading = ref(false);
 
-function runSearch() {
+let searchTimer = null;
+
+// Debounced by default so typing doesn't refilter on every single
+// keystroke; pass { immediate: true } (submit button, reset, initial
+// load) to skip the wait.
+function runSearch({ immediate = false } = {}) {
   loading.value = true;
-  // Simulate a search round-trip so the loading state is visible.
-  setTimeout(() => {
+  clearTimeout(searchTimer);
+
+  searchTimer = setTimeout(() => {
     results.value = searchFlights(filters);
     loading.value = false;
-  }, 600);
+  }, immediate ? 0 : 350);
 }
 
 function resetFilters() {
   filters.from = "";
   filters.to = "";
   filters.date = "";
-  results.value = [...flights];
+  runSearch({ immediate: true });
 }
 
+// Auto-update results the moment From / To / Date changes — no need
+// to press Search.
+watch(
+  () => [filters.from, filters.to, filters.date],
+  () => runSearch(),
+);
+
 onMounted(() => {
-  results.value = [...flights];
+  // Prefill from the Dashboard search widget (?from=&to=&date=) if present.
+  const { from, to, date } = route.query;
+  filters.from = from || "";
+  filters.to = to || "";
+  filters.date = date || "";
+  runSearch({ immediate: true });
 });
+
+onBeforeUnmount(() => clearTimeout(searchTimer));
 </script>

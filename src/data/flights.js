@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 
-// Static mock flight inventory.
 export const flights = [
   {
     id: "AI-101",
@@ -9,7 +8,7 @@ export const flights = [
     fromCode: "DEL",
     to: "Mumbai",
     toCode: "BOM",
-    date: "2026-09-20",
+    date: "2026-10-26",
     depart: "06:00",
     arrive: "08:10",
     duration: "2h 10m",
@@ -23,7 +22,7 @@ export const flights = [
     from: "Delhi",
     fromCode: "DEL",
     to: "Mumbai",
-    toCode: "BOM",
+    toCode: "BOM", 
     date: "2026-09-20",
     depart: "09:45",
     arrive: "11:55",

@@ -1,77 +1,4 @@
-<!-- <template>
-  <div>
-    <Navbar />
 
-    <div class="air-page">
-      <div class="container" style="max-width: 820px;">
-        <router-link :to="{ name: 'flights' }" class="air-muted d-inline-flex align-items-center gap-1 mb-3">
-          <i class="bi bi-arrow-left"></i> Back to search
-        </router-link>
-
-        <div v-if="!flight" class="air-surface p-5 text-center">
-          <i class="bi bi-exclamation-circle fs-2 air-muted d-block mb-2"></i>
-          <p class="air-muted mb-3">We couldn't find that flight.</p>
-          <router-link class="btn air-btn-primary" :to="{ name: 'flights' }">Browse flights</router-link>
-        </div>
-
-        <div v-else class="air-surface p-4 p-md-5">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
-            <div>
-              <span class="air-badge-soft mb-2 d-inline-block">{{ flight.airline }}</span>
-              <h1 class="h4 fw-bold mb-0">{{ flight.from }} → {{ flight.to }}</h1>
-              <p class="air-muted mb-0">{{ formattedDate }}</p>
-            </div>
-            <div class="text-end">
-              <div class="fs-3 fw-bold text-primary">₹{{ flight.price.toLocaleString("en-IN") }}</div>
-              <div class="air-muted small">per adult</div>
-            </div>
-          </div>
-
-          <div class="row text-center g-3 mb-4">
-            <div class="col-4">
-              <div class="fw-bold fs-5">{{ flight.depart }}</div>
-              <div class="air-muted small">{{ flight.fromCode }} · {{ flight.from }}</div>
-            </div>
-            <div class="col-4">
-              <i class="bi bi-airplane-fill text-primary fs-4"></i>
-              <div class="air-muted small">{{ flight.duration }}</div>
-              <div class="air-muted small">{{ flight.stops === 0 ? "Non-stop" : `${flight.stops} stop` }}</div>
-            </div>
-            <div class="col-4">
-              <div class="fw-bold fs-5">{{ flight.arrive }}</div>
-              <div class="air-muted small">{{ flight.toCode }} · {{ flight.to }}</div>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row g-3 mb-4">
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Flight No.</div>
-              <div class="fw-semibold">{{ flight.id }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Aircraft</div>
-              <div class="fw-semibold">{{ flight.aircraft }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Stops</div>
-              <div class="fw-semibold">{{ flight.stops === 0 ? "Non-stop" : flight.stops }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="air-muted small">Class</div>
-              <div class="fw-semibold">Economy</div>
-            </div>
-          </div>
-
-          <router-link class="btn air-btn-primary w-100" :to="{ name: 'booking', params: { id: flight.id } }">
-            Book Now
-          </router-link>
-        </div>
-      </div>
-    </div>
-  </div>
-</template> -->
 <template>
 <div class="container-fluid home-data py-5 mb-5">
     <div class="container mb-2">
@@ -95,57 +22,69 @@
   <div class="container-fluid">
     <div class="container">
       <div class="search">
-        <button class="search-but"><i class="bi bi-arrow-left"></i>  Back to Search</button>
+        <router-link class="search-but" :to="{ name: 'flights' }"><i class="bi bi-arrow-left"></i>  Back to Search</router-link>
       </div>
-      <div class="row">
+
+      <div v-if="!flight" class="row">
+        <div class="col-lg-12">
+          <div class="uddan-data shadow not-found">
+            <i class="bi bi-exclamation-circle fs-2 d-block mb-2"></i>
+            <p class="mb-3">We couldn't find that flight.</p>
+            <router-link class="Book-Now not-found-btn" :to="{ name: 'flights' }">Browse flights</router-link>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="row">
         <div class="col-lg-12">
           <div class="uddan-data shadow">
             <div class="uddan-Airlines">
               <div class="my-class">
                 <div class="uddan-logo">
                   <div class=" d-flex">
-                    <img src="../assets/img/logo-img" class="img-fluid">
+                    <img v-if="airlineLogo" :src="airlineLogo" class="img-fluid">
+                    <i v-else class="bi bi-airplane-fill airline-fallback-icon"></i>
                   </div>
                   <div class="box-flight-data">
                       <div class="flight-top-data">
-                          <h3>Delhi (DEL)</h3>
-                          <p> Sat, 27 Sep 2025</p>
+                          <h3>{{ flight.from }} ({{ flight.fromCode }})</h3>
+                          <p>{{ formattedDate }}</p>
                       </div>
                       <div class="pt-1 icon-right">
                         <i class="bi bi-arrow-right"></i>
                       </div>
                       <div class="flight-top-data">
-                          <h3>Mumbai (BOM)</h3>
+                          <h3>{{ flight.to }} ({{ flight.toCode }})</h3>
                       </div>
                   </div>
                 </div>
               </div>
               <div class="date-price pt-1">
                   <p class="m-1">Total price</p>
-                  <h2><i class="bi bi-currency-rupee"></i>8,499</h2>
+                  <h2><i class="bi bi-currency-rupee"></i>{{ flight.price.toLocaleString("en-IN") }}</h2>
                   <p class="m-1">Per adult</p>
               </div>
             </div>
             <div class="shadow box-card">
               <div class="time-data">
                 <div class="Delhi-data">
-                  <h2>08:45</h2>
-                  <h6>DEL</h6>
-                  <p>indira Gandhi <br> international Airport</p>
-                  <p>Delhi</p>
+                  <h2>{{ flight.depart }}</h2>
+                  <h6>{{ flight.fromCode }}</h6>
+                  <p>{{ airportName(flight.from) }}</p>
+                  <p>{{ flight.from }}</p>
                 </div>
                 <div class="">
                   
                   <div class="Non-stop">
-                    <p class="m-0">2h 15m</p>
-                    <span>Non stop</span>
+                    <p class="m-0">{{ flight.duration }}</p>
+                    <span>{{ stopsLabel }}</span>
                   </div>
                 </div>
                 <div class="Mumbai-data ">
-                  <h2>11:00</h2>
-                  <h6>BOM</h6>
-                  <p>Chharrapati Shivaji <br> Maharaj international Airport</p>
-                  <p>Mumbai</p>
+                  <h2>{{ flight.arrive }}</h2>
+                  <h6>{{ flight.toCode }}</h6>
+                  <p>{{ airportName(flight.to) }}</p>
+                  <p>{{ flight.to }}</p>
                 </div>
               </div>
               <div class="card-data">
@@ -156,7 +95,7 @@
                     </div>
                     <div class="flaght-no">
                       <p class="m-0">Flaght No.</p>
-                      <h5>6E 215</h5>
+                      <h5>{{ flight.id }}</h5>
                     </div>
                   </div>
                   <div class="box-code pt-3 ">
@@ -165,7 +104,7 @@
                     </div>
                     <div class="flaght-no">
                       <p class="m-0">Aircraft</p>
-                      <h5>Airbus A320</h5>
+                      <h5>{{ flight.aircraft }}</h5>
                     </div>
                   </div>
                   <div class="box-code pt-3 ">
@@ -174,7 +113,7 @@
                     </div>
                     <div class="flaght-no">
                       <p class="m-0">Stops</p>
-                      <h6>Non-stop</h6>
+                      <h6>{{ stopsLabel }}</h6>
                     </div>
                   </div>
                   <div class="box-code pt-3 ">
@@ -232,7 +171,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="but-book">
-                  <button class="Book-Now ">Book Now <i class="bi bi-arrow-right"></i></button>
+                  <router-link class="Book-Now " :to="{ name: 'booking', params: { id: flight.id } }">Book Now <i class="bi bi-arrow-right"></i></router-link>
                 </div>
               </div>
             </div> 
@@ -244,8 +183,9 @@
 </template>
 <script setup>
 import { computed } from "vue";
-import Navbar from "../components/Navbar.vue";
 import { getFlightById } from "../data/flights.js";
+import indigoLogo from "../assets/img/IndiGo_logo_2x.avif";
+import airIndiaLogo from "../assets/img/air-india-logo.svg";
 
 const props = defineProps({
   id: {
@@ -265,6 +205,33 @@ const formattedDate = computed(() => {
     year: "numeric",
   });
 });
+
+const stopsLabel = computed(() => {
+  if (!flight.value) return "";
+  return flight.value.stops === 0
+    ? "Non-stop"
+    : `${flight.value.stops} stop${flight.value.stops > 1 ? "s" : ""}`;
+});
+
+const airlineLogos = {
+  "IndiGo": indigoLogo,
+  "Air India": airIndiaLogo,
+};
+
+const airlineLogo = computed(() => airlineLogos[flight.value?.airline] || null);
+
+const airportNames = {
+  Delhi: "Indira Gandhi International Airport",
+  Mumbai: "Chhatrapati Shivaji Maharaj International Airport",
+  Bengaluru: "Kempegowda International Airport",
+  Goa: "Goa International Airport",
+  Chennai: "Chennai International Airport",
+  Kolkata: "Netaji Subhas Chandra Bose International Airport",
+};
+
+function airportName(city) {
+  return airportNames[city] || `${city} Airport`;
+}
 </script>
 <style scoped>
 .home-data
@@ -305,6 +272,8 @@ const formattedDate = computed(() => {
   color: #205ED2;
   font-size: 15px;
   font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
 }
 .search .search-but i
 {
@@ -315,6 +284,16 @@ const formattedDate = computed(() => {
 {
   margin-bottom: 30px;
   border-radius: 20px;
+}
+.uddan-data.not-found
+{
+  padding: 60px 20px;
+  text-align: center;
+  color: #6c757d;
+}
+.uddan-data.not-found i
+{
+  color: #205ED2;
 }
 .uddan-data .uddan-Airlines
 {
@@ -356,6 +335,11 @@ const formattedDate = computed(() => {
   font-size: 17px;
   font-weight: 500;
   color: #8b8f93;
+}
+.uddan-logo .airline-fallback-icon
+{
+  font-size: 40px;
+  color: #205ED2;
 }
 .time-data 
 {
@@ -445,5 +429,13 @@ const formattedDate = computed(() => {
   color: white;
   background-color: #205ED2;
   border: none;
+  display: block;
+  text-decoration: none;
+}
+.not-found-btn
+{
+  display: inline-block;
+  width: auto;
+  padding: 10px 30px;
 }
 </style>
