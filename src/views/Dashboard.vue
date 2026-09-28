@@ -13,24 +13,31 @@
           </div>
           <div class=" booking-main-cont">
               <div class="book-btn-cont">
-                <button class="booking-btn" id="booking-page">
+                <button class="booking-btn" id="booking-page"
+                :class="{ active: activeTab === 'booking' }"
+                 @click="activeTab = 'booking'"
+                 >
                   <i class="bi bi-airplane"></i>
                   <h5>Book a flight</h5>
                 </button>
-                <button class="status-btn" id="status-page">
-                  <i class="bi bi-airplane"></i>
-                  <h5>Flight Status</h5>
+                <button class="status-btn" id="status-page"
+                :class="{ active: activeTab === 'status' }"
+                @click="activeTab = 'status'"
+                >
+                <i class="bi bi-airplane"></i>
+                <h5>Flight Status</h5>
                 </button>
               </div>
               
               <div class="book-data-btm">
+                <template v-if="activeTab === 'booking'">
                 <div class="travel-details">
                   <label class="pe-2 me-4">
-                    <input type="radio" id="return">
+                    <input type="radio" id="return" name="trip-type" value="return" v-model="tripType">
                     Return
                   </label>
                   <label>
-                    <input type="radio" id="one-way">
+                    <input type="radio" id="one-way" name="trip-type" value="one-way" v-model="tripType">
                     One way
                   </label>
                 </div>
@@ -38,37 +45,66 @@
                 <div class="booking-info">
                   <div class="book-travel-data">
                     <label>
-                      <input type="text" placeholder="From" id="departure">
+                      <input type="text" placeholder="From" id="departure" v-model.trim="searchForm.from">
                     </label>
                   </div>
                   <div class="reverse-btn-cont">
-                    <button id="reverse-data">
+                    <button type="button" id="reverse-data" @click="reverseLocations">
                       <i class="bi bi-arrow-left-right"></i>
                     </button>
                   </div>
                   <div class="book-travel-data">
                     <label>
-                      <input type="text" placeholder="To" id="arrival">
+                      <input type="text" placeholder="To" id="arrival" v-model.trim="searchForm.to">
                     </label>
                   </div>
                   <div class="book-travel-date">
                     <label>
-                      <input type="date" id="departure-date">
+                      <input type="date" id="departure-date" v-model="searchForm.departDate"  :min="todayStr">
                     </label>
+                     
                   </div>
                   <div class="book-travel-date">
                     <label>
-                      <input type="date" id="arrival-date">
+                      <input
+                        type="date"
+                        id="arrival-date"
+                        v-model="searchForm.returnDate"
+                        :min="searchForm.departDate || undefined"
+                        :disabled="tripType === 'one-way'"
+                      >
                     </label>
+                     
                   </div>
-                 
                 </div>
                 <div class="find-btn-cont">
-                  <button class="find-btn" id="find-btn">
-                    <i class="bi bi-search"></i> 
+                  <button type="button" class="find-btn" id="find-btn" @click="handleSearch">
+                    <i class="bi bi-search"></i>
                     Search Flights
                   </button>
                 </div>
+                </template>
+                <template v-else>
+                   <div>
+                      <h5 style="color: black;" class="d-flex">Flight Status</h5>
+                    </div>
+                  <div class="booking-info status-info  mt-3">
+                    <div class="book-travel-data ">
+                      <label><input type="text" placeholder="Flight Number" v-model.trim="statusForm.flightNumber"></label>
+                    </div>
+                    <div class="book-travel-date">
+                      <label><input type="date" v-model="statusForm.date" :min="todayStr"></label>
+                       <span class="date-preview" v-if="statusForm.date">{{ formatDate(statusForm.date) }}</span>
+                    </div>
+                  </div>
+
+                  <div class="find-btn-cont">
+                    <button type="button" class="find-btn" @click="handleStatusSearch">
+                      <i class="bi bi-search"></i>
+                      Check Status
+                    </button>
+                  </div>
+                </template>
               </div>
            </div>
         </div>
@@ -216,20 +252,173 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue";
+<!-- <script setup>
+import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { useUserStore } from "../data/user.js";
 import { useBookingStore, flights } from "../data/flights.js";
 
-const userStore = useUserStore();
-const bookingStore = useBookingStore();
+let userStore = useUserStore();
+let bookingStore = useBookingStore();
+let router = useRouter();
 
-const firstName = computed(() => userStore.currentUser?.name?.split(" ")[0] || "Traveler");
-const upcomingCount = computed(() => bookingStore.bookings.length);
+let tripType = ref("return");
+let searchForm = reactive({
+  from: "",
+  to: "",
+  departDate: "",
+  returnDate: "",
+});
+
+function reverseLocations() {
+  [searchForm.from, searchForm.to] = [searchForm.to, searchForm.from];
+}
+let activeTab = ref("booking"); 
+
+let statusForm = reactive({
+  flightNumber: "",
+  date: "",
+});
+
+function handleStatusSearch() {
+  let query = {};
+  if (statusForm.flightNumber) query.flightNumber = statusForm.flightNumber;
+  if (statusForm.date) query.date = statusForm.date;
+  router.push({ name: "flight-status", query });
+}
+const todayStr = computed(() => {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`; 
+});
+
+</script> -->
+
+<script setup>
+import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import Navbar from "../components/Navbar.vue";
+import { useUserStore } from "../data/user.js";
+import { useBookingStore, flights } from "../data/flights.js";
+
+// let userStore = useUserStore();
+// let bookingStore = useBookingStore();
+
+let router = useRouter();
+let tripType = ref("return");
+let searchForm = reactive({
+  from: "",
+  to: "",
+  departDate: "",
+  returnDate: "",
+});
+
+function reverseLocations() {
+  [searchForm.from, searchForm.to] = [
+    searchForm.to,
+    searchForm.from
+  ];
+}
+let activeTab = ref("booking");
+let statusForm = reactive({
+  flightNumber: "",
+  date: "",
+});
+
+const todayStr = computed(() => {
+  const d = new Date();
+
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
+});
+function formatDate(date) {
+  if (!date) return "";
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) {
+    return date;
+  }
+  return d.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+function handleSearch() {
+  if (!searchForm.from.trim()) {
+    alert("Please enter departure city.");
+    return;
+  }
+  if (!searchForm.to.trim()) {
+    alert("Please enter arrival city.");
+    return;
+  }
+
+  if (
+    searchForm.from.trim().toLowerCase() ===
+    searchForm.to.trim().toLowerCase()
+  ) {
+    alert("Source and destination cannot be the same.");
+    return;
+  }
+  if (!searchForm.departDate) {
+    alert("Please select departure date.");
+    return;
+  }
+
+  if (
+    tripType.value === "return" &&
+    !searchForm.returnDate
+  ) {
+    alert("Please select return date.");
+    return;
+  }
+  if (
+    tripType.value === "return" &&
+    searchForm.returnDate < searchForm.departDate
+  ) {
+    alert("Return date cannot be before departure date.");
+    return;
+  }
+  router.push({
+    name: "flights",
+
+    query: {
+      from: searchForm.from.trim(),
+      to: searchForm.to.trim(),
+      date: searchForm.departDate,
+
+      returnDate:
+        tripType.value === "return"
+          ? searchForm.returnDate
+          : "",
+
+      tripType: tripType.value,
+    },
+  });
+}
+
+function handleStatusSearch() {
+  let query = {};
+  if (statusForm.flightNumber.trim()) {
+    query.flightNumber = statusForm.flightNumber.trim();
+  }
+  if (statusForm.date) {
+    query.date = statusForm.date;
+  }
+  router.push({
+    name: "flight-status",
+    query,
+  });
+}
+
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Semi+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
@@ -405,11 +594,6 @@ body,html
        margin: 0;
       }
     }
-    .booking-btn:hover
-    {
-      color: white;
-      background-color: rgb(119, 75, 119);
-    }
   }
     .status-btn
     {
@@ -433,6 +617,41 @@ body,html
       background-color: rgb(119, 75, 119);
     }
 }
+}
+
+// ========================================
+// LAPTOP: keep the search widget (dates included)
+// inside the viewport instead of overflowing it
+// ========================================
+@media (max-width: 1300px) {
+  .booking-main-cont {
+    max-width: 92vw;
+  }
+  .book-data-btm {
+    max-width: 92vw;
+  }
+  .booking-info {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .booking-info .book-travel-data input {
+    width: 100%;
+    min-width: 160px;
+  }
+  .booking-info .book-travel-data {
+    flex: 1 1 200px;
+  }
+  .booking-info .book-travel-date {
+    flex: 1 1 160px;
+  }
+  .booking-info .book-travel-date input {
+    width: 100%;
+    min-width: 140px;
+  }
+  .find-btn-cont .find-btn {
+    width: auto;
+  }
 }
 
 .og-section
@@ -915,7 +1134,25 @@ body {
     font-size: 13px;
   }
 }
-</style>
+.booking-btn.active
+{
+  background-color: rgb(119, 75, 119);
+}
+.booking-btn:hover {
+  color: white;
+  background-color: green;
+}
 
+.status-btn.active
+{
+
+  background-color: rgb(119, 75, 119);
+}
+.status-btn:hover{
+  background-color: green !important;
+
+}
+
+</style>
 
  
