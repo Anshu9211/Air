@@ -18,12 +18,8 @@
                         <form @submit.prevent="handleLogin">
                            <div class="">
                             <div class="login-logo mx-auto">
-                                <img src="../assets/img/Udaan Airlines.png" class="img-fluid">
+                                <img src="../assets/img/1.png" class="img-fluid">
                             </div>
-                            <!-- <div class="content-box text-center">
-                              <h3>Login</h3>
-                              <p>Enter your Email and Password</p>
-                            </div> -->
                            <div class="form-group-box">
                             <label>Email</label>
                             <input
