@@ -1,17 +1,19 @@
- <template>
-  <div class="container-fluid home-nav ">
+<template>
+  <div class="container-fluid home-nav">
     <div class="container">
       <div class="row align-items-center">
           <div class="col-lg-2">
             <div class="nav-img">
-              <img src="../assets/img/Udaan Airlines.png" class="img-fluid">
+              <img src="../assets/img/2.png" class="img-fluid">
             </div>
         </div>
           <div class="col-lg-7">
               <div class="navbar-text">
                 <ul class="nav-ul ">
                   <li class="nav-li"><a href="#">HOME</a>
-                    <div class="home-dropdown">
+                  </li>
+                  <li class="nav-li"><a href="#">FLIGHTS</a>
+                  <div class="home-dropdown">
                       <ul class="ul-nav">
                         <li class="li-nav"><a href="#">UDAAN AIRLINES O1</a></li>
                         <li class="li-nav"><a href="#">UDAAN AIRLINES O2</a></li>
@@ -21,7 +23,6 @@
                       </ul>
                     </div>
                   </li>
-                  <li class="nav-li"><a href="#">FLIGHTS</a></li>
                   <li class="nav-li"><a href="#">SERVICES</a></li>
                   <li class="nav-li"><a href="#">TEAM</a></li>
                   <li class="nav-li"><a href="#">CONTACT</a></li>
@@ -40,43 +41,24 @@
                 </ul>
             </div>
           </div>
-        </div>
-          
+        </div>  
     </div>
   </div>
-  <!-- <div class="container-fluid home-box">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="box-container">
-            <div class="contant">
-              <h2></h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script setup>
 import { useRouter } from "vue-router";
 import { useUserStore } from "../data/user.js";
-
-const router = useRouter();
-const userStore = useUserStore();
-
-
 </script>
 
 <style scoped>
 .home-nav
 {
-  /* background:liner(#89C8F7,red); */
-  background: linear-gradient(#89C8F7);
+  background: linear-gradient(
+    140deg,
+    rgba(71, 149, 212, 0.92),
+    rgba(10, 30, 51, 0.96));
+  
 }
 .navbar-text{
     padding-top: 20px;
@@ -106,7 +88,7 @@ const userStore = useUserStore();
     position: relative;
     transition: 0.5s ease;
     display: block;
-    font-weight: 500;
+    font-weight: 400;
 
 }
 .navbar-text .nav-ul .nav-li a::before
@@ -115,9 +97,10 @@ const userStore = useUserStore();
     position: absolute;
     bottom: -2px;
     left: 0;
-    background-color:black ;
+    background-color: rgba(146, 223, 253, 0.726) ;
     width: 0;
     height: 3px;
+    border-radius: 35px;
     transition: 0.4s ease;
 }
 
@@ -165,9 +148,6 @@ const userStore = useUserStore();
     display: none;
     transition: 0.4s ease;
     border-radius: 15px;
-    /* padding-top: 25px; */
-    /* box-shadow: 5px 5px 0 white,
-    inset 5px 5px 0 white; */
     background-color:#89C8F7 ;
     border: 1px solid #ffffff7c;
  }
@@ -179,7 +159,8 @@ const userStore = useUserStore();
 .nav-contant
 {
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 9px;
+    font-weight: 400;
 }
 .nav-contant ul
 {
@@ -201,12 +182,5 @@ const userStore = useUserStore();
 {
   background-color: #8B827E;
 }
-/* .home-box
-{
-  background-image: url("../assets/img/background.png");
-  background-position: center;
-  background-size: cover;
-  height: 500%;
-} */
 
 </style>
