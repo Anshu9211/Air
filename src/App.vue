@@ -1,7 +1,9 @@
 <template>
-  <div id="app-shell">
-    <router-view />
-  </div>
+  <v-app>
+    <div id="app-shell">
+      <router-view />
+    </div>
+  </v-app>
 </template>
 
 <style>

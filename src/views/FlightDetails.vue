@@ -187,16 +187,16 @@ import { getFlightById } from "../data/flights.js";
 import indigoLogo from "../assets/img/IndiGo_logo_2x.avif";
 import airIndiaLogo from "../assets/img/air-india-logo.svg";
 
-const props = defineProps({
+let props = defineProps({
   id: {
     type: String,
     required: true,
   },
 });
 
-const flight = computed(() => getFlightById(props.id));
+let flight = computed(() => getFlightById(props.id));
 
-const formattedDate = computed(() => {
+let formattedDate = computed(() => {
   if (!flight.value) return "";
   return new Date(flight.value.date).toLocaleDateString("en-IN", {
     weekday: "long",
@@ -206,21 +206,21 @@ const formattedDate = computed(() => {
   });
 });
 
-const stopsLabel = computed(() => {
+let stopsLabel = computed(() => {
   if (!flight.value) return "";
   return flight.value.stops === 0
     ? "Non-stop"
     : `${flight.value.stops} stop${flight.value.stops > 1 ? "s" : ""}`;
 });
 
-const airlineLogos = {
+let airlineLogos = {
   "IndiGo": indigoLogo,
   "Air India": airIndiaLogo,
 };
 
-const airlineLogo = computed(() => airlineLogos[flight.value?.airline] || null);
+let airlineLogo = computed(() => airlineLogos[flight.value?.airline] || null);
 
-const airportNames = {
+let airportNames = {
   Delhi: "Indira Gandhi International Airport",
   Mumbai: "Chhatrapati Shivaji Maharaj International Airport",
   Bengaluru: "Kempegowda International Airport",

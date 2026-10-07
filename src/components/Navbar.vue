@@ -15,11 +15,10 @@
                   <li class="nav-li"><a href="#">FLIGHTS</a>
                   <div class="home-dropdown">
                       <ul class="ul-nav">
-                        <li class="li-nav"><a href="#">UDAAN AIRLINES O1</a></li>
-                        <li class="li-nav"><a href="#">UDAAN AIRLINES O2</a></li>
-                        <li class="li-nav"><a href="#">UDAAN AIRLINES O3</a></li>
-                        <li class="li-nav"><a href="#">UDAAN AIRLINES O4</a></li>
-                        <li class="li-nav"><a href="#">UDAAN AIRLINES O5</a></li>
+                        <li class="li-nav"><a href="#">AIR INDIA</a></li>
+                        <li class="li-nav"><a href="#">INDIGO</a></li>
+                        <li class="li-nav"><a href="#">VISTARA</a></li>
+                        <li class="li-nav"><a href="#">SPICE JET</a></li>
                       </ul>
                     </div>
                   </li>
@@ -89,6 +88,7 @@ import { useUserStore } from "../data/user.js";
     transition: 0.5s ease;
     display: block;
     font-weight: 400;
+    width: fit-content;
 
 }
 .navbar-text .nav-ul .nav-li a::before
@@ -102,6 +102,7 @@ import { useUserStore } from "../data/user.js";
     height: 3px;
     border-radius: 35px;
     transition: 0.4s ease;
+    /* width: fit-content; */
 }
 
 .nav-ul .nav-li a:hover::before
@@ -124,7 +125,8 @@ import { useUserStore } from "../data/user.js";
 
 .home-dropdown .ul-nav
 {
-  padding: 20px 30px 20px 30px;
+  /* padding: 20px 30px 20px 30px;  */
+  padding: 20px;
   z-index: 3;
 
 }
@@ -132,24 +134,28 @@ import { useUserStore } from "../data/user.js";
 {
   text-decoration: none;
   list-style-type: none;
+  padding: 10px 20px;
+
 }
 .home-dropdown .ul-nav .li-nav a
 {
   color: white;
+  font-weight: 600;
 }
  .nav-ul .ul-nav
  {
     position: absolute;
-    line-height: 50px;
-    width: 250px;
-    top: 35px;
+    /* line-height: 50px; */
+    width: 200px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
     transition: 0.4s ease;
     border-radius: 15px;
-    background-color:#89C8F7 ;
+    background-color:#1f2123ac ;
     border: 1px solid #ffffff7c;
+    
  }
  .nav-ul li:hover .ul-nav 
 {
