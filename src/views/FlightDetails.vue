@@ -1,7 +1,7 @@
 
 <template>
 <div class="container-fluid home-data py-5 mb-5">
-    <div class="container mb-2">
+    <div class="container mb-2 mt-5">
       <div class="row">
         <div class="col-lg-12">
           <div class="flight-data mb-3">
@@ -93,8 +93,8 @@
                     <div class="card-details ">
                       <i class="bi bi-airplane"></i>
                     </div>
-                    <div class="flaght-no">
-                      <p class="m-0">Flaght No.</p>
+                    <div class="flight-no">
+                      <p class="m-0">Flight No.</p>
                       <h5>{{ flight.id }}</h5>
                     </div>
                   </div>
@@ -102,7 +102,7 @@
                     <div class="card-details ">
                       <i class="bi bi-airplane"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Aircraft</p>
                       <h5>{{ flight.aircraft }}</h5>
                     </div>
@@ -111,7 +111,7 @@
                     <div class="card-details ">
                       <i class="bi bi-airplane"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Stops</p>
                       <h6>{{ stopsLabel }}</h6>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="card-details ">
                       <i class="bi bi-airplane"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Class</p>
                       <h5>Economy</h5>
                     </div>
@@ -136,7 +136,7 @@
                     <div class="card-details-icon">
                       <i class="bi bi-shield"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Safe & Secure <br> Booking</p>
                     </div>
                   </div>
@@ -144,7 +144,7 @@
                     <div class="card-details-icon">
                       <i class="bi bi-headset"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">24/7 <br> Customer Support</p>
                     </div>
                   </div>
@@ -152,7 +152,7 @@
                     <div class="card-details-icon">
                       <i class="bi bi-backpack3-fill"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Free <br> Cabin Baggage</p>
                     </div>
                   </div>
@@ -160,7 +160,7 @@
                     <div class="card-details-icon">
                       <i class="bi bi-patch-check"></i>
                     </div>
-                    <div class="flaght-no">
+                    <div class="flight-no">
                       <p class="m-0">Best Price <br> Guarantee</p>
                     </div>
                   </div>

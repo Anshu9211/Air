@@ -5,8 +5,8 @@
   src: url();
 } */
 :root {
-  --air-primary: #2563eb;
-  --air-primary-dark: #1d4ed8;
+  --air-primary: #5297D1;
+  --air-primary-dark: #0e3ab4a6;
   --air-primary-light: #eaf1ff;
   --air-accent: #0ea5e9;
   --air-bg: #f6f8fb;
@@ -46,7 +46,7 @@ a {
 .air-page {
   min-height: calc(100vh - 64px);
   background-color: var(--air-bg);
-  padding: 32px 0 56px;
+  padding: 0px 0 56px;
 }
 
 .air-surface {
@@ -54,6 +54,7 @@ a {
   border: 1px solid var(--air-border);
   border-radius: var(--air-radius);
   box-shadow: var(--air-shadow);
+  padding: 35px 50px;
 }
 
 .air-surface--hover:hover {
