@@ -301,58 +301,65 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, onMounted, onBeforeUnmount, watch } from "vue";
+import {
+  computed,
+  reactive,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  watch,
+} from "vue";
+
 import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { VDatePicker } from "vuetify/components";
 
-const router = useRouter();
-
-const tripType = ref("return");
-const activeTab = ref("booking");
-const showPassengers = ref(false);
-const adult = ref("1");
-const child = ref("0");
-
-const searchForm = reactive({
+let router = useRouter();
+let tripType = ref("return");
+let activeTab = ref("booking");
+let showPassengers = ref(false);
+let adult = ref("1");
+let child = ref("0");
+let searchForm = reactive({
   from: "",
   to: "",
-  departDate: "", 
-  returnDate: "", 
+  departDate: "",
+  returnDate: "",
 });
-
-const statusForm = reactive({
+let statusForm = reactive({
   flightNumber: "",
   date: "",
 });
-
 function reverseLocations() {
-  [searchForm.from, searchForm.to] = [searchForm.to, searchForm.from];
+  [searchForm.from, searchForm.to] = [
+    searchForm.to,
+    searchForm.from,
+  ];
 }
-function toISO(d) {
-  const x = new Date(d);
-  const yyyy = x.getFullYear();
-  const mm = String(x.getMonth() + 1).padStart(2, "0");
-  const dd = String(x.getDate()).padStart(2, "0");
+function toISO(date) {
+  let d = new Date(date);
+  let yyyy = d.getFullYear();
+  let mm = String(d.getMonth() + 1).padStart(2, "0");
+  let dd = String(d.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
 }
-
-function parseISO(s) {
-  const [y, m, d] = s.split("-").map(Number);
-  return new Date(y, m - 1, d);
+function parseISO(value) {
+  if (!value) return null;
+  let [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
 }
-
-function startOfDay(d) {
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  return x;
+function startOfDay(date) {
+  let d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
 }
-
-const todayStr = computed(() => toISO(new Date()));
+let todayStr = computed(() => toISO(new Date()));
 function formatDate(date) {
   if (!date) return "";
-  const d = new Date(date);
-  if (Number.isNaN(d.getTime())) return date;
+  let d = new Date(date);
+  if (Number.isNaN(d.getTime())) {
+    return date;
+  }
   return d.toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "short",
@@ -361,121 +368,147 @@ function formatDate(date) {
 }
 function formatDMY(date) {
   if (!date) return "";
-  const [y, m, d] = date.split("-");
-  return `${d}-${m}-${y}`;
+  let [year, month, day] = date.split("-");
+  return `${day}-${month}-${year}`;
 }
-const showDepartureCalendar = ref(false);
-const showReturnCalendar = ref(false);
-const departureDate = ref(null);
-const returnDate = ref(null);
-
-const minDeparture = computed(() => startOfDay(new Date()));
-const isDepartureAllowed = (d) => startOfDay(d) >= minDeparture.value;
-const minReturn = computed(() => {
-  const base = searchForm.departDate
-    ? parseISO(searchForm.departDate)
-    : minDeparture.value;
-  const next = new Date(base);
-  next.setDate(next.getDate() + 1);
-  return startOfDay(next);
+let showDepartureCalendar = ref(false);
+let showReturnCalendar = ref(false);
+let departureDate = ref(null);
+let returnDate = ref(null);
+let minDeparture = computed(() => {
+  return startOfDay(new Date());
 });
-const isReturnAllowed = (d) => startOfDay(d) >= minReturn.value;
-const returnDisabled = computed(
-  () => !searchForm.departDate || tripType.value === "one-way"
-);
 
+function isDepartureAllowed(date) {
+  return startOfDay(date) >= minDeparture.value;
+}
+let minReturn = computed(() => {
+  if (!searchForm.departDate) {
+    return startOfDay(new Date());
+  }
+  let departure = parseISO(searchForm.departDate);
+  departure.setDate(departure.getDate() + 1);
+  return startOfDay(departure);
+});
+function isReturnAllowed(date) {
+  return startOfDay(date) >= minReturn.value;
+}
 function toggleDepartureCalendar() {
-  showDepartureCalendar.value = !showDepartureCalendar.value;
+  showDepartureCalendar.value =
+    !showDepartureCalendar.value;
   showReturnCalendar.value = false;
 }
-
 function toggleReturnCalendar() {
-  if (returnDisabled.value) return;
-  showReturnCalendar.value = !showReturnCalendar.value;
+  showReturnCalendar.value =
+    !showReturnCalendar.value;
   showDepartureCalendar.value = false;
 }
-
 function selectDepartureDate(date) {
   if (!date) return;
+  if (!isDepartureAllowed(date)) {
+    return;
+  }
   searchForm.departDate = toISO(date);
-  departureDate.value = date;
+  departureDate.value = new Date(date);
   showDepartureCalendar.value = false;
-  if (searchForm.returnDate && searchForm.returnDate <= searchForm.departDate) {
+  if (
+    searchForm.returnDate &&
+    searchForm.returnDate <= searchForm.departDate
+  ) {
     searchForm.returnDate = "";
     returnDate.value = null;
   }
 }
-
 function selectReturnDate(date) {
   if (!date) return;
-
+  if (!isReturnAllowed(date)) {
+    return;
+  }
   searchForm.returnDate = toISO(date);
-  returnDate.value = date;
+  returnDate.value = new Date(date);
   showReturnCalendar.value = false;
 }
 
-watch(tripType, (val) => {
-  if (val === "one-way") {
+watch(tripType, (value) => {
+  if (value === "one-way") {
     searchForm.returnDate = "";
     returnDate.value = null;
     showReturnCalendar.value = false;
   }
 });
-
-function handleOutsideClick(e) {
-  if (!e.target.closest(".date-picker-wrapper")) {
+function handleOutsideClick(event) {
+  if (!event.target.closest(".date-picker-wrapper")) {
     showDepartureCalendar.value = false;
     showReturnCalendar.value = false;
   }
 }
-onMounted(() => document.addEventListener("click", handleOutsideClick));
-onBeforeUnmount(() => document.removeEventListener("click", handleOutsideClick));
+onMounted(() => {
+  document.addEventListener("click", handleOutsideClick);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleOutsideClick);
+});
+
 function handleSearch() {
   if (!searchForm.from.trim()) {
     alert("Please enter departure city.");
     return;
   }
+
   if (!searchForm.to.trim()) {
     alert("Please enter arrival city.");
     return;
   }
-  if (searchForm.from.trim().toLowerCase() === searchForm.to.trim().toLowerCase()) {
+
+  if (
+    searchForm.from.trim().toLowerCase() ===
+    searchForm.to.trim().toLowerCase()
+  ) {
     alert("Source and destination cannot be the same.");
     return;
   }
+
   if (!searchForm.departDate) {
     alert("Please select departure date.");
     return;
   }
+
   if (searchForm.departDate < todayStr.value) {
     alert("Departure date cannot be in the past.");
     return;
   }
-  if (tripType.value === "return" && !searchForm.returnDate) {
+  if (
+    tripType.value === "return" &&
+    !searchForm.returnDate
+  ) {
     alert("Please select return date.");
     return;
   }
-  if (tripType.value === "return" && searchForm.returnDate <= searchForm.departDate) {
+  if (
+    tripType.value === "return" &&
+    searchForm.returnDate <= searchForm.departDate
+  ) {
     alert("Return date must be after departure date.");
     return;
   }
-
   router.push({
     name: "flights",
     query: {
       from: searchForm.from.trim(),
       to: searchForm.to.trim(),
       departDate: searchForm.departDate,
-      returnDate: tripType.value === "return" ? searchForm.returnDate : "",
+      returnDate:
+        tripType.value === "return"
+          ? searchForm.returnDate
+          : "",
       tripType: tripType.value,
       adult: adult.value,
       child: child.value,
     },
   });
 }
-
 function handleStatusSearch() {
-  const query = {};
+  let query = {};
   if (statusForm.flightNumber.trim()) {
     query.flightNumber = statusForm.flightNumber.trim();
   }
@@ -657,7 +690,6 @@ body {
       border: 1px solid rgba(0, 0, 0, 0.3);
       border-radius: 6px;
       font-family: inherit;
-      // background-color: red;
     }
   }
   .passenger-dropdown label {
@@ -902,7 +934,7 @@ body {
           display: flex;
           align-items: center;
           width: 100%;
-          justify-content: right;
+          justify-content: center;
 
           .find-btn {
             height: 42px;
@@ -1175,7 +1207,6 @@ body {
 }
 
 @media (max-width: 700px) {
-  // Mobile: calendar screen ke beech me popup
   .calendar-popup,
   .calendar-right .calendar-popup {
     position: fixed;
