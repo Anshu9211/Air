@@ -1,32 +1,29 @@
 <template>
   <div>
-    <Navbar />
+    <!-- <Navbar /> -->
 
     <div class="air-page">
+      <div class="img-cont mb-5">
+        <div class="bg-img-cont">
+          <img src="../assets/img/1.png" alt="1" width="147px" height="75px">
+        </div>
+        <div class="img-data">
+          <h1 class="text-center">
+            Travel safely
+            <br>
+            <span class="in-sp"> 
+              With
+            </span>
+            <br>
+            <span class="in-sp-two">
+             Udaan Airlines
+            </span>
+          </h1>
+        </div>
+        
+      </div>
       <div class="container">
-        <h1 class="h4 fw-bold mb-3">Search Flights</h1>
-
-        <form class="air-surface p-3 p-md-4 mb-4" @submit.prevent="runSearch({ immediate: true })">
-          <div class="row g-3 align-items-end">
-            <div class="col-12 col-md-3">
-              <label class="form-label">From</label>
-              <input v-model.trim="filters.from" type="text" class="form-control" placeholder="e.g. Delhi" />
-            </div>
-            <div class="col-12 col-md-3">
-              <label class="form-label">To</label>
-              <input v-model.trim="filters.to" type="text" class="form-control" placeholder="e.g. Mumbai" />
-            </div>
-            <div class="col-12 col-md-3">
-              <label class="form-label">Date</label>
-              <input v-model="filters.date" type="date" class="form-control" />
-            </div>
-            <div class="col-12 col-md-3">
-              <button type="submit" class="btn air-btn-primary w-100">
-                <i class="bi bi-search me-1"></i> Search
-              </button>
-            </div>
-          </div>
-        </form>
+        <h1 class="h4 fw-bold mb-3 " style="color: black;">Flight details</h1>
 
         <SearchingFlight v-if="loading" message="Searching flights…" />
 
@@ -99,3 +96,51 @@ onMounted(() => {
 
 onBeforeUnmount(() => clearTimeout(searchTimer));
 </script>
+
+<style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+QLD+Hand:wght@400..700&display=swap');
+.img-cont
+{
+  background: url(../assets/img/new-banner.png) ;
+  background-size: cover ;
+  background-position: center;
+  width: 100%;
+  height: 600px;
+  position: relative;
+  .bg-img-cont
+  {
+    position: absolute;
+    bottom: -3px;
+    right: 1%;
+    transform: translateX(-50%);
+    // img
+    // {
+    //   opacity: 0.5;
+    // }
+  }
+  .img-data
+  {
+    position: absolute;
+    top: 20%;
+    left: 28%;
+    h1
+    {
+      font-family: "Oswald", sans-serif;
+      font-size: 70px;
+      color: #172C42;
+      .in-sp
+      {
+        font-family: "Edu QLD Hand", cursive;
+        color: #8faac0;
+        
+      }
+      
+      .in-sp-two
+      {
+        color: #5298D2;
+      }
+    }
+  }
+}
+</style>

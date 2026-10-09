@@ -204,9 +204,7 @@
                     <label>
                       <input type="date" v-model="statusForm.date" :min="todayStr" />
                     </label>
-                    <span class="date-preview" v-if="statusForm.date">
-                      {{ formatDate(statusForm.date) }}
-                    </span>
+                   
                   </div>
                 </div>
 

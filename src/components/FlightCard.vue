@@ -1,5 +1,5 @@
 <template>
-  <div class="air-surface air-surface--hover p-3 p-md-4 mb-3">
+  <div class="air-surface air-surface--hover mb-4">
     <div class="row align-items-center g-3">
       <div class="col-12 col-md-3">
         <div class="d-flex align-items-center gap-2">
@@ -32,7 +32,9 @@
       </div>
 
       <div class="col-12 col-md-2">
-        <div class="fw-bold fs-5 text-primary">₹{{ flight.price.toLocaleString("en-IN") }}</div>
+        <div class="fw-bold fs-5 text-primary">
+          ₹{{ flight.price.toLocaleString("en-IN") }}
+        </div>
         <div class="air-muted small">per adult</div>
       </div>
 

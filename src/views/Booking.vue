@@ -1,8 +1,9 @@
 <template>
   <div>
     <Navbar />
-
+     
     <div class="air-page">
+     
       <div class="container" style="max-width: 720px;">
         <div v-if="!flight" class="air-surface p-5 text-center">
           <i class="bi bi-exclamation-circle fs-2 air-muted d-block mb-2"></i>
