@@ -3,7 +3,7 @@
     <!-- <Navbar /> -->
 
     <div class="air-page">
-      <div class="img-cont mb-5">
+      <div class="img-cont">
         <div class="bg-img-cont">
           <img src="../assets/img/1.png" alt="1" width="147px" height="75px">
         </div>
@@ -22,113 +22,32 @@
         </div>
         
       </div>
-      <div class="container">
-        <h1 class="h4 fw-bold mb-3 " style="color: black;">Flight details</h1>
-
-        <h1 class="h4 fw-bold mb-3">Search Flights</h1>
-
-        <!-- Search Form -->
-        <form
-          class="air-surface p-3 p-md-4 mb-4"
-          @submit.prevent="runSearch({ immediate: true })"
-        >
-          <div class="row g-3 align-items-end">
-
-            <!-- From -->
-            <div class="col-12 col-md-3">
-              <label class="form-label">From</label>
-
-              <input
-                v-model.trim="filters.from"
-                type="text"
-                class="form-control"
-                placeholder="e.g. Delhi"
-              />
-            </div>
-
-            <!-- To -->
-            <div class="col-12 col-md-3">
-              <label class="form-label">To</label>
-
-              <input
-                v-model.trim="filters.to"
-                type="text"
-                class="form-control"
-                placeholder="e.g. Mumbai"
-              />
-            </div>
-
-            <!-- Date -->
-            <div class="col-12 col-md-3">
-              <label class="form-label">Date</label>
-
-              <input
-                v-model="filters.date"
-                type="date"
-                class="form-control"
-              />
-            </div>
-
-            <!-- Search Button -->
-            <div class="col-12 col-md-3">
-              <button
-                type="submit"
-                class="btn air-btn-primary w-100"
-              >
-                <i class="bi bi-search me-1"></i>
-                Search
-              </button>
-            </div>
-
-          </div>
-        </form>
-
-        <!-- Loading -->
-        <SearchingFlight
-          v-if="loading"
-          message="Searching flights…"
-        />
-
-        <!-- Results -->
-        <template v-else>
-
-          <p class="air-muted mb-3">
-            {{ results.length }} flight(s) found
-          </p>
-
-          <!-- Flight Cards -->
-          <FlightCard
-            v-for="flight in results"
-            :key="flight.id"
-            :flight="flight"
-            :total-price="getTotalPrice(flight.price)"
-            :adult="adult"
-            :child="child"
-          />
-
-          <!-- No Results -->
-          <div
-            v-if="results.length === 0"
-            class="air-surface p-5 text-center"
-          >
-            <i
-              class="bi bi-emoji-frown fs-2 air-muted d-block mb-2"
-            ></i>
-
-            <p class="air-muted mb-3">
-              No flights match your search.
+      <div class="container-fluid air-page-data py-5">
+        <div class="container ">
+          <div class="top-flight-data d-flex align-items-center justify-space-between px-2 mb-3">
+          <h1 class="h4 fw-bold  " style="color: black;">Flight details</h1>
+            <p class="air-muted mb-0 btn-clip">
+              {{ results.length }} Flight's found
             </p>
-
-            <button
-              class="btn btn-outline-secondary"
-              @click="resetFilters"
-            >
-              Reset filters
-            </button>
           </div>
+          <!-- Loading -->
+          <SearchingFlight
+            v-if="loading"
+            message="Searching flights…"
+          />
+          <template v-else>
+          
+            <FlightCard
+              v-for="flight in results"
+              :key="flight.id"
+              :flight="flight"
+              :total-price="getTotalPrice(flight.price)"
+              :adult="adult"
+              :child="child"
+            />
+          </template>
 
-        </template>
-
+        </div>
       </div>
     </div>
   </div>
@@ -157,99 +76,42 @@ import {
 } from "../data/flights.js";
 
 
-const route = useRoute();
-
-
-// ------------------------------------
-// Search Filters
-// ------------------------------------
-
-const filters = reactive({
+let route = useRoute();
+let filters = reactive({
   from: "",
   to: "",
   date: "",
 });
 
-
-// ------------------------------------
-// Flight Results
-// ------------------------------------
-
-const results = ref([...flights]);
-
-const loading = ref(false);
-
+let results = ref([...flights]);
+let loading = ref(false);
 let searchTimer = null;
-
-
-// ------------------------------------
-// Passenger Data
-// Dashboard se query ke through aayega
-// ------------------------------------
-
-const adult = computed(() => {
+let adult = computed(() => {
   return Number(route.query.adult || 1);
 });
-
-const child = computed(() => {
+let child = computed(() => {
   return Number(route.query.child || 0);
 });
-
-
-// ------------------------------------
-// Calculate Total Price
-// Adult = 100%
-// Child = 50%
-// ------------------------------------
-
 function getTotalPrice(price) {
-  const adultFare = price * adult.value;
+  let adultFare = price * adult.value;
 
-  const childFare = price * child.value * 0.5;
+  let childFare = price * child.value * 0.5;
 
   return Math.round(adultFare + childFare);
 }
 
-
-// ------------------------------------
-// Search Flights
-// ------------------------------------
-
 function runSearch({ immediate = false } = {}) {
   loading.value = true;
-
   clearTimeout(searchTimer);
-
   searchTimer = setTimeout(
     () => {
       results.value = searchFlights(filters);
-
       loading.value = false;
     },
     immediate ? 0 : 350
   );
 }
-
-
-// ------------------------------------
-// Reset Filters
-// ------------------------------------
-
-function resetFilters() {
-  filters.from = "";
-  filters.to = "";
-  filters.date = "";
-
-  runSearch({
-    immediate: true,
-  });
-}
-
-
-// ------------------------------------
-// Watch Search Filters
-// ------------------------------------
-
+ 
 watch(
   () => [
     filters.from,
@@ -260,35 +122,22 @@ watch(
     runSearch();
   }
 );
-
-
-// ------------------------------------
-// Get Dashboard Search Data
-// ------------------------------------
-
 onMounted(() => {
-  const {
+  let {
     from,
     to,
     departDate,
     date,
   } = route.query;
 
-
   filters.from = from || "";
-
   filters.to = to || "";
-
-  // Dashboard se departDate aa raha hai
-  // old route ke liye date bhi support rahega
   filters.date = departDate || date || "";
-
 
   runSearch({
     immediate: true,
   });
 });
-
 onBeforeUnmount(() => clearTimeout(searchTimer));
 </script>
 
@@ -338,13 +187,21 @@ onBeforeUnmount(() => clearTimeout(searchTimer));
     }
   }
 }
+.air-page-data
+{
+  background: linear-gradient(#8686ac58),url(../assets/img/bg-3.jpeg);
+  background-position: top;
+  background-size: cover;
+  
+}
+
+.top-flight-data  .btn-clip{
+  background-color: #fec5b0c4;
+  padding: 7px 25px;
+  border-radius: 35px;
+  border: 1px solid #172C42;
+  color: #172C42;
+  font-weight: bold;
+  font-size: 17px;
+}
 </style>
-
-// ------------------------------------
-// Clear Timer
-// ------------------------------------
-
-onBeforeUnmount(() => {
-  clearTimeout(searchTimer);
-});
-</script>
