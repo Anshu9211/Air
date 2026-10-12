@@ -4,7 +4,7 @@
      
     <div class="air-page">
      
-      <div class="container" style="max-width: 720px;">
+      <div class="container">
         <div v-if="!flight" class="air-surface p-5 text-center">
           <i class="bi bi-exclamation-circle fs-2 air-muted d-block mb-2"></i>
           <p class="air-muted mb-3">We couldn't find that flight.</p>
@@ -12,7 +12,9 @@
         </div>
 
         <template v-else-if="!confirmed">
-          <router-link :to="{ name: 'flight-details', params: { id: flight.id } }" class="air-muted d-inline-flex align-items-center gap-1 mb-3">
+          <div class="container" >
+            <div style="padding: 0px 24px 0 ">
+          <router-link :to="{ name: 'flight-details', params: { id: flight.id } }" class="search-but d-inline-flex align-items-center gap-1 mb-3 mt-5">
             <i class="bi bi-arrow-left"></i> Back to flight
           </router-link>
 
@@ -23,8 +25,10 @@
             </div>
             <div class="fw-bold text-primary fs-5">₹{{ flight.price.toLocaleString("en-IN") }}</div>
           </div>
-
+          </div>
           <BookingForm :submitting="submitting" @submit="handleConfirm" />
+          
+          </div>
         </template>
 
         <div v-else class="air-surface p-5 text-center">
@@ -85,3 +89,21 @@ function handleConfirm(passenger) {
   }, 700);
 }
 </script>
+<style scoped>
+ .search-but {
+  border: 1px solid #205ed23e;
+  padding: 5px 15px;
+  border-radius: 50px;
+  color: #205ED2;
+  font-size: 18px;
+  font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
+  transition: 0.4s ease;
+}
+
+ .search-but:hover {
+  background-color: #205ED2;
+  color: white;
+}
+</style>

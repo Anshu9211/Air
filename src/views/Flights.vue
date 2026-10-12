@@ -189,7 +189,7 @@ onBeforeUnmount(() => clearTimeout(searchTimer));
 }
 .air-page-data
 {
-  background: linear-gradient(#8686ac58),url(../assets/img/bg-3.jpeg);
+  background: linear-gradient(#f4f4f788),url(../assets/img/bg-3.jpeg);
   background-position: top;
   background-size: cover;
   
