@@ -123,7 +123,7 @@
                   </div>
                 </div>
                 <div
-                  class="book-travel-date date-picker-wrapper calendar-right"
+                  class="book-travel-date date-picker-wrapper calendar-right" style="display: none;"
                 >
                   <button
                     type="button"
@@ -139,7 +139,7 @@
                       }}
                     </span>
                   </button>
-                  <div v-if="showReturnCalendar" class="calendar-popup">
+                  <!-- <div v-if="showReturnCalendar" class="calendar-popup">
                     <v-date-picker
                       v-model="returnDate"
                       color="purple"
@@ -148,7 +148,7 @@
                       hide-header
                       @update:model-value="selectReturnDate"
                     />
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="passen">
@@ -475,20 +475,20 @@ function handleSearch() {
     alert("Departure date cannot be in the past.");
     return;
   }
-  if (
-    tripType.value === "return" &&
-    !searchForm.returnDate
-  ) {
-    alert("Please select return date.");
-    return;
-  }
-  if (
-    tripType.value === "return" &&
-    searchForm.returnDate <= searchForm.departDate
-  ) {
-    alert("Return date must be after departure date.");
-    return;
-  }
+  // if (
+  //   tripType.value === "return" &&
+  //   !searchForm.returnDate
+  // ) {
+  //   alert("Please select return date.");
+  //   return;
+  // }
+  // if (
+  //   tripType.value === "return" &&
+  //   searchForm.returnDate <= searchForm.departDate
+  // ) {
+  //   alert("Return date must be after departure date.");
+  //   return;
+  // }
   router.push({
     name: "flights",
     query: {

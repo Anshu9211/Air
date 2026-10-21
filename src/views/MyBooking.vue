@@ -5,7 +5,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-lg-12">
-                <div class="my-bookings">
+                <div class="my-bookings " style="display: none;">
                     <div class="contant">
                         <h3>My Bookings</h3>
                         <p>View and Manage your flights bookings</p>
@@ -108,7 +108,7 @@ import airIndiaLogo from "../assets/img/air-india-logo.svg";
 const router = useRouter();
 const bookingStore = useBookingStore();
 
-// Real bookings placed through the Booking flow, newest first (store already unshifts).
+
 const bookings = computed(() => bookingStore.bookings);
 
 const airlineLogos = {
@@ -120,16 +120,45 @@ function getLogo(airline) {
   return airlineLogos[airline] || null;
 }
 
-// "06:00" -> "06:00 AM"
-function formatTime(time) {
+ function formatTime(time) {
   if (!time) return "--";
-  const [h, m] = time.split(":").map(Number);
-  const period = h >= 12 ? "PM" : "AM";
-  const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${period}`;
+
+  // Handle values like "06:00", "06:00 AM", or a full date-time
+  const value = String(time).trim();
+
+  const match = value.match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i);
+
+  if (!match) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) return "--";
+
+    return date.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    });
+  }
+
+  let hour = Number(match[1]);
+  const minute = Number(match[2]);
+  const period = match[3]?.toUpperCase();
+
+  if (minute > 59 || hour > 23 || (period && (hour < 1 || hour > 12))) {
+    return "--";
+  }
+
+  if (period) {
+    hour = hour % 12;
+    if (period === "PM") hour += 12;
+  }
+
+  const formattedHour = hour % 12 || 12;
+  const formattedPeriod = hour >= 12 ? "PM" : "AM";
+
+  return `${String(formattedHour).padStart(2, "0")}:${String(minute).padStart(2, "0")} ${formattedPeriod}`;
 }
 
-// "2026-09-20" -> { day: "20 Sep 2026", weekday: "Sun" }
 function formatDate(dateStr) {
   if (!dateStr) return { day: "--", weekday: "--" };
   const d = new Date(`${dateStr}T00:00:00`);

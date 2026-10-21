@@ -27,7 +27,7 @@
           <div class="top-flight-data d-flex align-items-center justify-space-between px-2 mb-3">
           <h1 class="h4 fw-bold  " style="color: black;">Flight details</h1>
             <p class="air-muted mb-0 btn-clip">
-              {{ results.length }} Flight's found
+              {{ results.length }} Flights found
             </p>
           </div>
           <!-- Loading -->

@@ -1,46 +1,53 @@
 <template>
   <div>
     <Navbar />
-     
+
     <div class="air-page">
-     
       <div class="container">
+
+        <!-- Flight Not Found -->
         <div v-if="!flight" class="air-surface p-5 text-center">
           <i class="bi bi-exclamation-circle fs-2 air-muted d-block mb-2"></i>
-          <p class="air-muted mb-3">We couldn't find that flight.</p>
-          <router-link class="btn air-btn-primary" :to="{ name: 'flights' }">Browse flights</router-link>
+
+          <p class="air-muted mb-3">
+            We couldn't find that flight.
+          </p>
+
+          <router-link
+            class="btn air-btn-primary"
+            :to="{ name: 'flights' }"
+          >
+            Browse flights
+          </router-link>
         </div>
 
+        <!-- Booking Form -->
         <template v-else-if="!confirmed">
-          <div class="container" >
-            <div style="padding: 0px 24px 0 ">
-          <router-link :to="{ name: 'flight-details', params: { id: flight.id } }" class="search-but d-inline-flex align-items-center gap-1 mb-3 mt-5">
-            <i class="bi bi-arrow-left"></i> Back to flight
+
+          <router-link
+            :to="{
+              name: 'flight-details',
+              params: { id: flight.id }
+            }"
+            class="search-but d-inline-flex align-items-center gap-1 mb-3 mt-5 d-none"
+          >
+            <i class="bi bi-arrow-left"></i>
+            Back to flight
           </router-link>
 
-          <div class="air-surface p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div>
-              <div class="fw-semibold">{{ flight.airline }} · {{ flight.id }}</div>
-              <div class="air-muted small">{{ flight.from }} → {{ flight.to }} · {{ flight.depart }}–{{ flight.arrive }}</div>
-            </div>
-            <div class="fw-bold text-primary fs-5">₹{{ flight.price.toLocaleString("en-IN") }}</div>
-          </div>
-          </div>
-          <BookingForm :submitting="submitting" @submit="handleConfirm" />
-          
-          </div>
-        </template>
+          <BookingForm
+            :flight="flight"
+            :base-fare="Number(flight.price) || 0"
+            :submitting="submitting"
+            @submit="handleConfirm"
+          />
 
-        <div v-else class="air-surface p-5 text-center">
-          <i class="bi bi-check-circle-fill text-success display-5 mb-3 d-block"></i>
-          <h2 class="h4 fw-bold mb-1">Booking Confirmed!</h2>
-          <p class="air-muted mb-1">Reference: <strong>{{ lastBookingId }}</strong></p>
-          <p class="air-muted mb-4">A confirmation has been sent to your email.</p>
-          <div class="d-flex gap-2 justify-content-center flex-wrap">
-            <router-link class="btn air-btn-primary" :to="{ name: 'my-bookings' }">View My Bookings</router-link>
-            <router-link class="btn btn-outline-secondary" :to="{ name: 'flights' }">Book Another Flight</router-link>
-          </div>
-        </div>
+        </template>
+        <BookingSuccess
+          v-else-if="lastBooking"
+          :booking="lastBooking"
+        />
+
       </div>
     </div>
   </div>
@@ -48,62 +55,102 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
+
 import Navbar from "../components/Navbar.vue";
 import BookingForm from "../components/BookingForm.vue";
-import { getFlightById, useBookingStore } from "../data/flights.js";
+import BookingSuccess from "../components/BookingSuccess.vue";
+
+import {
+  getFlightById,
+  useBookingStore
+} from "../data/flights.js";
+
 import { useUserStore } from "../data/user.js";
 
-const props = defineProps({
+let props = defineProps({
   id: {
     type: String,
-    required: true,
-  },
+    required: true
+  }
 });
 
-const bookingStore = useBookingStore();
-const userStore = useUserStore();
+let route = useRoute();
+let bookingStore = useBookingStore();
+let userStore = useUserStore();
 
-const flight = computed(() => getFlightById(props.id));
-const submitting = ref(false);
-const confirmed = ref(false);
-const lastBookingId = ref("");
+let flight = computed(() => getFlightById(props.id));
+
+let submitting = ref(false);
+let confirmed = ref(false);
+let lastBooking = ref(null);
 
 function handleConfirm(passenger) {
+  if (submitting.value || !flight.value) return;
+
   submitting.value = true;
 
-  setTimeout(() => {
-    const bookingId = `BK${Date.now().toString().slice(-8)}`;
+  try {
+    let adult = Math.max(
+      1,
+      Number(route.query.adult) || 1
+    );
 
-    bookingStore.addBooking({
-      bookingId,
+    let child = Math.max(
+      0,
+      Number(route.query.child) || 0
+    );
+
+    let baseFare = Number(flight.value.price) || 0;
+
+    let calculatedTotal =
+      baseFare * adult + baseFare * 0.5 * child;
+
+    let totalPrice =
+      Number(route.query.totalPrice) || calculatedTotal;
+
+    let booking = {
+      bookingId: `BK${Date.now().toString().slice(-8)}`,
       flightId: flight.value.id,
-      flight: flight.value,
-      passenger,
-      bookedBy: userStore.currentUser?.email,
-      bookedAt: new Date().toISOString(),
-    });
+      flight: { ...flight.value },
+      passenger: { ...passenger },
 
-    lastBookingId.value = bookingId;
-    submitting.value = false;
+      adult,
+      child,
+      baseFare,
+      totalPrice,
+
+      bookedBy: userStore.currentUser?.email || "",
+      bookedAt: new Date().toISOString()
+    };
+
+    bookingStore.addBooking(booking);
+
+    lastBooking.value = booking;
     confirmed.value = true;
-  }, 700);
+
+  } catch (error) {
+    console.error("Booking failed:", error);
+  } finally {
+    submitting.value = false;
+  }
 }
 </script>
+
 <style scoped>
- .search-but {
+.search-but {
   border: 1px solid #205ed23e;
   padding: 5px 15px;
   border-radius: 50px;
-  color: #205ED2;
+  color: #205ed2;
   font-size: 18px;
   font-weight: 500;
-  display: inline-block;
   text-decoration: none;
   transition: 0.4s ease;
 }
 
- .search-but:hover {
-  background-color: #205ED2;
+.search-but:hover {
+  background-color: #205ed2;
   color: white;
 }
 </style>
