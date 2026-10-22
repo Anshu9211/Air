@@ -48,42 +48,22 @@
           </div>
         </div>
 
-        <div class="actions">
 
-          <router-link
-            class="primary-btn"
-            :to="{ name: 'my-bookings' }"
-          >
-            View My Bookings
-            <i class="bi bi-arrow-right"></i>
-          </router-link>
-
-          <router-link
-            class="secondary-btn"
-            :to="{ name: 'flights' }"
-          >
-            Book Another Flight
-          </router-link>
-
-        </div>
-
-      </section>
-
-      <!-- FLIGHT SUMMARY -->
-      <section class="summary-card">
+        <section class="summary-card">
         <div class="route">
-          <div>
+          <div class="arrival">
             <strong>FROM</strong>
             <h3>{{ flight.fromCode || flight.from || "—" }}</h3>
             <p>{{ flight.from || "—" }}</p>
           </div>
 
           <div class="route-line">
+            <span></span>
             <i class="bi bi-airplane"></i>
             <span></span>
           </div>
 
-          <div class="destination">
+          <div class="departure">
             <strong>TO</strong>
             <h3>{{ flight.toCode || flight.to || "—" }}</h3>
             <p>{{ flight.to || "—" }}</p>
@@ -92,22 +72,22 @@
         </div>
 
         <div class="flight-info">
-          <div>
+          <div class="first-col">
             <span>Flight</span>
             <strong>{{ flight.airline || flight.id || "—" }}</strong>
           </div>
 
-          <div>
+          <div class="sec-col">
             <span>Date</span>
             <strong>{{ flight.date || "—" }}</strong>
           </div>
 
-          <div>
+          <div class="first-col">
             <span>Departure</span>
             <strong>{{ flight.depart || "—" }}</strong>
           </div>
 
-          <div>
+          <div class="sec-col">
             <span>Arrival</span>
             <strong>{{ flight.arrive || "—" }}</strong>
           </div>
@@ -142,6 +122,10 @@
         </div>
 
       </section>
+      </section>
+
+      <!-- FLIGHT SUMMARY -->
+      
 
     </div>
   </main>
@@ -269,6 +253,7 @@ console.log("Passenger details:", passenger.value);
   gap: 16px;
   margin: 25px 0;
   text-align: left;
+  padding: 0px 10px 0px 10px;
 }
 
 .detail-row {
@@ -287,51 +272,6 @@ console.log("Passenger details:", passenger.value);
   color: #52627b;
 }
 
-.actions {
-  display: grid;
-  gap: 12px;
-  margin-top: 25px;
-}
-
-.primary-btn,
-.secondary-btn {
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 18px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.primary-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #fff;
-  background: #205ed2;
-}
-
-.primary-btn:hover {
-  color: #fff;
-  background: #1649aa;
-}
-
-.secondary-btn {
-  color: #33435c;
-  background: #fff;
-  border-color: #dfe6f0;
-}
-
-.secondary-btn:hover {
-  color: #205ed2;
-  border-color: #205ed2;
-}
-
 .summary-card {
   min-height: 450px;
   display: flex;
@@ -339,10 +279,10 @@ console.log("Passenger details:", passenger.value);
   justify-content: space-around;
   gap: 22px;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.849), rgba(255, 255, 255, 0.849)),
-    url("../assets/img/1.png");
+    linear-gradient(rgba(255, 255, 255, 0.842), rgba(255, 255, 255, 0.658)),
+    url("https://img.magnific.com/free-photo/abstract-blue-motion-wave-background_1017-46751.jpg?t=st=1792570770~exp=1792574370~hmac=da07ae6490114de8551a42610fc69ce8590c9c371c00e49ccaa5547ef86bab8d&w=1480");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -351,7 +291,7 @@ console.log("Passenger details:", passenger.value);
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 8px;
-  padding: 20px 0;
+  /* padding: 20px 0; */
 }
 
 .route strong {
@@ -371,11 +311,17 @@ console.log("Passenger details:", passenger.value);
 
 .route p {
   color: #7b879b;
-  font-size: 10px;
+  font-size: 12px;
 }
 
-.destination {
+.arrival
+{
+  text-align: start;
+  padding-left: 30px;
+}
+.departure {
   text-align: end;
+  padding-right: 30px;
 }
 
 .route-line {
@@ -387,10 +333,11 @@ console.log("Passenger details:", passenger.value);
 
 .route-line i {
   font-size: 19px;
+  transform: rotate(90deg);
 }
 
 .route-line span {
-  width: 18px;
+  width: 130px;
   border-top: 1px dashed #205ed2;
 }
 
@@ -399,18 +346,29 @@ console.log("Passenger details:", passenger.value);
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 15px 0;
-  border-top: 1px solid #e5ebf2;
-  border-bottom: 1px solid #e5ebf2;
+  /* border-top: 1px solid #e5ebf2; */
+  /* border-bottom: 1px solid #e5ebf2; */
 }
 
 .flight-info div {
   display: grid;
   gap: 6px;
 }
+.flight-info .first-col
+{
+  text-align: start;
+  padding-left: 30px;
+}
+
+.flight-info .sec-col
+{
+  text-align: end;
+  padding-right: 30px;
+}
 
 .flight-info span {
   color: #7b879b;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .flight-info strong {
@@ -423,6 +381,7 @@ console.log("Passenger details:", passenger.value);
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 0px 30px 0px 30px;
 }
 
 .summary-divider {
@@ -441,20 +400,20 @@ console.log("Passenger details:", passenger.value);
 
 .fare-heading h3 {
   margin: 0;
-  font-size: 15px;
+  font-size: 23px;
   font-weight: 800;
 }
 
 .fare-heading span {
   color: #7b879b;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .fare-row span,
 .total-row span {
   color: #52627b;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 

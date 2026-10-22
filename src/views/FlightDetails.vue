@@ -60,6 +60,8 @@
                       :src="airlineLogo"
                       :alt="flight.airline"
                       class="img-fluid"
+                      width="135px"
+                      height="135px"
                     />
 
                     <i
@@ -270,7 +272,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 import { getFlightById } from "../data/flights.js";
-import indigoLogo from "../assets/img/king.png";
+import indigoLogo from "../assets/img/IndiGo_logo_2x.avif";
 import airIndiaLogo from "../assets/img/air-india-logo.svg";
 
 const props = defineProps({
